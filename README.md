@@ -3,6 +3,8 @@ LBCycleScrollView
 
 Cycle scroll view for iOS. Use Objective-C.
 
+![LBCycleScrollView](http://1.syzphp.sinaapp.com/LBCycleScrollView.gif)
+
 Usage
 ==============
 
