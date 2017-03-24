@@ -6,7 +6,7 @@ Cycle scroll view for iOS. Use Objective-C.
 Usage
 ==============
 
-### Cycle scroll view with custom pageControl
+### Cycle scroll view with custom page control
 
     LBPageControl *control1 = [[LBPageControl alloc] init];
     control1.pageIndicatorImage = [UIImage imageNamed:@"control1"];
