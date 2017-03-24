@@ -95,7 +95,7 @@ Usage
     scrollView4.itemArray = @[UIColorFromRGB(0xBABABA), UIColorFromRGB(0xAB82FF), UIColorFromRGB(0xFFDEAD), UIColorFromRGB(0xD1EEEE), UIColorFromRGB(0x87CEFF)];
     [scrollView4 reloadData];
     
-Download the demo project and read more.
+### Download the demo project and read more.
 
 Installation
 ==============
