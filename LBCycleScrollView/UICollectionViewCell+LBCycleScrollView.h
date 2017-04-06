@@ -51,7 +51,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UICollectionViewCell (LBCycleScrollView)
+@protocol UICollectionViewCellAssignment <NSObject>
+
+@optional
+- (void)assignmentValueToView;
+
+@end
+
+@interface UICollectionViewCell (LBCycleScrollView) <UICollectionViewCellAssignment>
 
 // the data will display in cell
 @property (nonatomic, strong) id cellItem;

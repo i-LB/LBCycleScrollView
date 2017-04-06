@@ -64,13 +64,7 @@ NSString *const LBCycleScrollViewCellIdentifier = @"LBCycleScrollViewCellIdentif
 
 - (void)setupViewAndInitialValue {
     
-    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    [layout setItemSize:CGSizeMake(self.frame.size.width, self.frame.size.height)];
-    layout.minimumLineSpacing = 0.f;
-    layout.minimumInteritemSpacing = 0.f;
-    [layout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
-    
-    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.f, 0.f, self.frame.size.width, self.frame.size.height) collectionViewLayout:layout];
+    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.f, 0.f, self.frame.size.width, self.frame.size.height) collectionViewLayout:[UICollectionViewFlowLayout new]];
     self.collectionView.backgroundColor = [UIColor whiteColor];
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
@@ -185,7 +179,7 @@ NSString *const LBCycleScrollViewCellIdentifier = @"LBCycleScrollViewCellIdentif
         [self.collectionView reloadData];
         
         if (self.totalItemsCount > 1) {
-            // scroll to the center of the middle view
+            // scroll to the middle of the view
             if (self.scrollDirection == LBCycleScrollViewScrollDirectionHorizontal) {
                 [self.collectionView setContentOffset:CGPointMake(self.totalItemsCount / 2 * self.collectionView.frame.size.width, 0.f) animated:NO];
             } else {

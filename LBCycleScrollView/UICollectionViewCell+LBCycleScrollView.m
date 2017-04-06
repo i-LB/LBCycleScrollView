@@ -20,19 +20,14 @@ static const char LBCycleScrollViewCellItemKey = '\0';
     objc_setAssociatedObject(self, &LBCycleScrollViewCellItemKey,
                              cellItem, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
-    [self assignmentValueToView];
+    if ([self respondsToSelector:@selector(assignmentValueToView)]) {
+        [self assignmentValueToView];
+    }
 }
 
 - (id)cellItem {
     
     return objc_getAssociatedObject(self, &LBCycleScrollViewCellItemKey);
 }
-
-#pragma mark - Private
-
-/**
- the subclass must overide this method
- */
-- (void)assignmentValueToView { }
 
 @end
