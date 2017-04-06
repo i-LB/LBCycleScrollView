@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name         = 'LBCycleScrollView'
   s.summary      = 'Cycle scroll view for iOS. Use Objective-C.'
-  s.version      = '1.0.0'
+  s.version      = '1.0.1'
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
   s.authors      = { 'i-LB' => '' }
   s.homepage     = 'https://github.com/i-LB/LBCycleScrollView'
