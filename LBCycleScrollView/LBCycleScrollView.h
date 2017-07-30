@@ -54,7 +54,7 @@ typedef NS_OPTIONS(NSUInteger, LBCycleScrollViewPageControlAlignment) {
 @property (nonatomic) LBCycleScrollViewPageControlAlignment pageControlAlignment;
 // scroll direction. default is horizontal
 @property (nonatomic) LBCycleScrollViewScrollDirection scrollDirection;
-// cycle scroll. default is YES
+// cycle scroll. default is NO
 @property (nonatomic, getter=isCycleScrollEnabled) BOOL cycleScrollEnabled;
 // timing scrolling. default is YES
 @property (nonatomic, getter=isTimingScrollEnabled) BOOL timingScrollingEnabled;

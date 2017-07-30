@@ -31,7 +31,7 @@ NSString *const LBCycleScrollViewCellIdentifier = @"LBCycleScrollViewCellIdentif
 
 + (LBCycleScrollView *)cycleScrollViewWithFrame:(CGRect)frame cellClass:(Class)cls {
     
-    LBCycleScrollView *view = [[self alloc] initWithFrame:frame];
+    LBCycleScrollView *view = [self alloc];
     view.cycleScrollEnabled = YES;
     view.cellCls = [cls isSubclassOfClass:[UICollectionViewCell class]] ? cls : [UICollectionViewCell class];
     view = [view initWithFrame:frame];
@@ -40,9 +40,10 @@ NSString *const LBCycleScrollViewCellIdentifier = @"LBCycleScrollViewCellIdentif
 
 + (LBCycleScrollView *)nonCycleScrollViewWithFrame:(CGRect)frame cellClass:(Class)cls {
     
-    LBCycleScrollView *view = [[self alloc] initWithFrame:frame];
+    LBCycleScrollView *view = [self alloc];
     view.cycleScrollEnabled = NO;
     view.cellCls = [cls isSubclassOfClass:[UICollectionViewCell class]] ? cls : [UICollectionViewCell class];
+    view = [view initWithFrame:frame];
     return view;
 }
 
@@ -75,7 +76,6 @@ NSString *const LBCycleScrollViewCellIdentifier = @"LBCycleScrollViewCellIdentif
             forCellWithReuseIdentifier:LBCycleScrollViewCellIdentifier];
     [self addSubview:self.collectionView];
     
-    self.cycleScrollEnabled = YES;
     self.timingScrollingEnabled = YES;
     self.scrollTimeInterval = LBCycleScrollViewTimeInterval;
     self.pageControlLeftOrRightMargin = LBCycleScrollViewPageControlLeftRightMargin;
