@@ -32,6 +32,8 @@ typedef NS_OPTIONS(NSUInteger, LBCycleScrollViewPageControlAlignment) {
 @optional
 // Called after the user changes the selection.
 - (void)cycleScrollView:(LBCycleScrollView *)scrollView didSelectItemAtIndex:(NSUInteger)index;
+// Called after the user changes the selection.
+- (void)cycleScrollView:(LBCycleScrollView *)scrollView didSelectItem:(UICollectionViewCell *)item atIndex:(NSUInteger)index;
 
 @end
 
@@ -57,7 +59,9 @@ typedef NS_OPTIONS(NSUInteger, LBCycleScrollViewPageControlAlignment) {
 // cycle scroll. default is NO
 @property (nonatomic, getter=isCycleScrollEnabled) BOOL cycleScrollEnabled;
 // timing scrolling. default is YES
-@property (nonatomic, getter=isTimingScrollEnabled) BOOL timingScrollingEnabled;
+@property (nonatomic, getter=isTimingScrollEnabled) BOOL timingScrollEnabled;
+// manual scroll enable. default is YES
+@property (nonatomic, getter=isManualScrollEnabled) BOOL manualScrollEnabled;
 
 /**
  Creates and returns a new instance of the LBCycleScrollView with cycle scroll function

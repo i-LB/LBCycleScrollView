@@ -60,6 +60,7 @@
     
     LBCycleScrollView *scrollView2 = [LBCycleScrollView cycleScrollViewWithFrame:CGRectMake(0.f, 210.f, self.view.frame.size.width, 100.f) cellClass:[DemoCollectionViewCell_Two class]];
     scrollView2.delegate = self;
+    scrollView2.manualScrollEnabled = NO;
     scrollView2.scrollTimeInterval = 4.f;
     scrollView2.pageControlAlignment = LBCycleScrollViewPageControlAlignmentCenter | LBCycleScrollViewPageControlAlignmentLeft;
     scrollView2.scrollDirection = LBCycleScrollViewScrollDirectionVertical;
@@ -101,7 +102,7 @@
     
     LBCycleScrollView *scrollView4 = [LBCycleScrollView cycleScrollViewWithFrame:CGRectMake(0.f, 530.f, self.view.frame.size.width, 100.f) cellClass:[DemoCollectionViewCell_Two class]];
     scrollView4.delegate = self;
-    scrollView4.timingScrollingEnabled = NO;
+    scrollView4.timingScrollEnabled = NO;
     scrollView4.pageControlAlignment = LBCycleScrollViewPageControlAlignmentBottom | LBCycleScrollViewPageControlAlignmentLeft;
     scrollView4.pageControl = control4;
     [self.view addSubview:scrollView4];
@@ -121,6 +122,11 @@
 - (void)cycleScrollView:(LBCycleScrollView *)scrollView didSelectItemAtIndex:(NSUInteger)index {
     
     NSLog(@"cycleScrollView: %@, didSelectItemAtIndex: %ld", scrollView, index);
+}
+
+- (void)cycleScrollView:(LBCycleScrollView *)scrollView didSelectItem:(UICollectionViewCell *)item atIndex:(NSUInteger)index {
+    
+    NSLog(@"cycleScrollView: %@, didSelectItem: %@ atIndex: %ld", scrollView, item, index);
 }
 
 @end

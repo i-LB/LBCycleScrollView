@@ -76,7 +76,8 @@ NSString *const LBCycleScrollViewCellIdentifier = @"LBCycleScrollViewCellIdentif
             forCellWithReuseIdentifier:LBCycleScrollViewCellIdentifier];
     [self addSubview:self.collectionView];
     
-    self.timingScrollingEnabled = YES;
+    self.timingScrollEnabled = YES;
+    self.manualScrollEnabled = YES;
     self.scrollTimeInterval = LBCycleScrollViewTimeInterval;
     self.pageControlLeftOrRightMargin = LBCycleScrollViewPageControlLeftRightMargin;
     self.pageControlTopOrBottomMargin = LBCycleScrollViewPageControlTopBottomMargin;
@@ -91,7 +92,7 @@ NSString *const LBCycleScrollViewCellIdentifier = @"LBCycleScrollViewCellIdentif
     
     [self stopCycleScrollTimer];
     
-    if (!self.timingScrollingEnabled) {
+    if (!self.timingScrollEnabled) {
         return;
     }
     
@@ -232,6 +233,13 @@ NSString *const LBCycleScrollViewCellIdentifier = @"LBCycleScrollViewCellIdentif
     [self.collectionView setCollectionViewLayout:layout animated:NO];
 }
 
+- (void)setManualScrollEnabled:(BOOL)manualScrollEnabled {
+    
+    _manualScrollEnabled = manualScrollEnabled;
+    
+    self.collectionView.scrollEnabled = _manualScrollEnabled;
+}
+
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -252,6 +260,11 @@ NSString *const LBCycleScrollViewCellIdentifier = @"LBCycleScrollViewCellIdentif
     
     if ([self.delegate respondsToSelector:@selector(cycleScrollView:didSelectItemAtIndex:)]) {
         [self.delegate cycleScrollView:self didSelectItemAtIndex:self.currentIndex % self.itemArray.count];
+    }
+    
+    if ([self.delegate respondsToSelector:@selector(cycleScrollView:didSelectItem:atIndex:)]) {
+        UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
+        [self.delegate cycleScrollView:self didSelectItem:cell atIndex:self.currentIndex % self.itemArray.count];
     }
 }
 
