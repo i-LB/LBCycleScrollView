@@ -174,6 +174,7 @@ NSString *const LBCycleScrollViewCellIdentifier = @"LBCycleScrollViewCellIdentif
     
     self.pageControl.numberOfPages = self.itemArray.count;
     [self resetPageControlFrame];
+    [self stopCycleScrollTimer];
     
     if (self.isCycleScrollEnabled) {
         self.totalItemsCount = self.itemArray.count <= 1 ? self.itemArray.count : 2 * self.itemArray.count;
@@ -182,9 +183,9 @@ NSString *const LBCycleScrollViewCellIdentifier = @"LBCycleScrollViewCellIdentif
         if (self.totalItemsCount > 1) {
             // scroll to the middle of the view
             if (self.scrollDirection == LBCycleScrollViewScrollDirectionHorizontal) {
-                [self.collectionView setContentOffset:CGPointMake(self.totalItemsCount / 2 * self.collectionView.frame.size.width, 0.f) animated:NO];
+                [self.collectionView setContentOffset:CGPointMake((self.totalItemsCount / 2 + self.selectIndex) * self.collectionView.frame.size.width, 0.f) animated:NO];
             } else {
-                [self.collectionView setContentOffset:CGPointMake(0.f, self.totalItemsCount / 2 * self.collectionView.frame.size.height) animated:NO];
+                [self.collectionView setContentOffset:CGPointMake(0.f, (self.totalItemsCount / 2 + self.selectIndex) * self.collectionView.frame.size.height) animated:NO];
             }
             self.pageControl.currentPage = self.currentIndex % self.itemArray.count;
             [self startCycleScrollTimer];
@@ -200,6 +201,13 @@ NSString *const LBCycleScrollViewCellIdentifier = @"LBCycleScrollViewCellIdentif
 }
 
 #pragma mark - Setter/Getter
+
+- (void)setSelectIndex:(NSInteger)selectIndex {
+    
+    _selectIndex = selectIndex;
+    
+    [self reloadData];
+}
 
 - (void)setCellCls:(Class)cellCls {
     

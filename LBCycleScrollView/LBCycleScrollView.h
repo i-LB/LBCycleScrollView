@@ -46,6 +46,8 @@ typedef NS_OPTIONS(NSUInteger, LBCycleScrollViewPageControlAlignment) {
 @property (nonatomic, strong) NSArray *itemArray;
 // the class of cell will register to the collectionView
 @property (nonatomic, strong) Class cellCls;
+// select index. default is 0
+@property (nonatomic) NSInteger selectIndex;
 // scroll time interval. default is 5 seconds
 @property (nonatomic) CGFloat scrollTimeInterval;
 // page control left margin or right margin. default is 15.f
