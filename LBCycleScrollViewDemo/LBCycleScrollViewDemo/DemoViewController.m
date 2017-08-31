@@ -109,7 +109,7 @@
     
     scrollView4.itemArray = @[UIColorFromRGB(0xBABABA), UIColorFromRGB(0xAB82FF), UIColorFromRGB(0xFFDEAD), UIColorFromRGB(0xD1EEEE), UIColorFromRGB(0x87CEFF)];
     [scrollView4 reloadData];
-    scrollView4.selectIndex = 3;
+    scrollView4.selectedIndex = 3;
 }
 
 
@@ -123,11 +123,6 @@
 - (void)cycleScrollView:(LBCycleScrollView *)scrollView didSelectItemAtIndex:(NSUInteger)index {
     
     NSLog(@"cycleScrollView: %@, didSelectItemAtIndex: %ld", scrollView, index);
-}
-
-- (void)cycleScrollView:(LBCycleScrollView *)scrollView didSelectItem:(UICollectionViewCell *)item atIndex:(NSUInteger)index {
-    
-    NSLog(@"cycleScrollView: %@, didSelectItem: %@ atIndex: %ld", scrollView, item, index);
 }
 
 @end

@@ -65,24 +65,24 @@ NSString *const LBCycleScrollViewCellIdentifier = @"LBCycleScrollViewCellIdentif
 
 - (void)setupViewAndInitialValue {
     
-    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.f, 0.f, self.frame.size.width, self.frame.size.height) collectionViewLayout:[UICollectionViewFlowLayout new]];
-    self.collectionView.backgroundColor = [UIColor whiteColor];
-    self.collectionView.delegate = self;
-    self.collectionView.dataSource = self;
-    self.collectionView.showsVerticalScrollIndicator = NO;
-    self.collectionView.showsHorizontalScrollIndicator = NO;
-    self.collectionView.pagingEnabled = YES;
-    [self.collectionView registerClass:self.cellCls ? self.cellCls : [UICollectionViewCell class]
+    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.f, 0.f, self.frame.size.width, self.frame.size.height) collectionViewLayout:[UICollectionViewFlowLayout new]];
+    _collectionView.backgroundColor = [UIColor whiteColor];
+    _collectionView.delegate = self;
+    _collectionView.dataSource = self;
+    _collectionView.showsVerticalScrollIndicator = NO;
+    _collectionView.showsHorizontalScrollIndicator = NO;
+    _collectionView.pagingEnabled = YES;
+    [_collectionView registerClass:_cellCls ? _cellCls : [UICollectionViewCell class]
             forCellWithReuseIdentifier:LBCycleScrollViewCellIdentifier];
-    [self addSubview:self.collectionView];
+    [self addSubview:_collectionView];
     
-    self.timingScrollEnabled = YES;
-    self.manualScrollEnabled = YES;
-    self.scrollTimeInterval = LBCycleScrollViewTimeInterval;
-    self.pageControlLeftOrRightMargin = LBCycleScrollViewPageControlLeftRightMargin;
-    self.pageControlTopOrBottomMargin = LBCycleScrollViewPageControlTopBottomMargin;
+    _timingScrollEnabled = YES;
+    _manualScrollEnabled = YES;
+    _scrollTimeInterval = LBCycleScrollViewTimeInterval;
+    _pageControlLeftOrRightMargin = LBCycleScrollViewPageControlLeftRightMargin;
+    _pageControlTopOrBottomMargin = LBCycleScrollViewPageControlTopBottomMargin;
+    _pageControlAlignment = LBCycleScrollViewPageControlAlignmentLeft | LBCycleScrollViewPageControlAlignmentBottom;
     self.scrollDirection = LBCycleScrollViewScrollDirectionHorizontal;
-    self.pageControlAlignment = LBCycleScrollViewPageControlAlignmentLeft | LBCycleScrollViewPageControlAlignmentBottom;
 }
 
 /**
@@ -92,12 +92,12 @@ NSString *const LBCycleScrollViewCellIdentifier = @"LBCycleScrollViewCellIdentif
     
     [self stopCycleScrollTimer];
     
-    if (!self.timingScrollEnabled) {
+    if (!_timingScrollEnabled) {
         return;
     }
     
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:self.scrollTimeInterval target:self selector:@selector(startCycleScroll) userInfo:nil repeats:YES];
-    [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+    _timer = [NSTimer scheduledTimerWithTimeInterval:_scrollTimeInterval target:self selector:@selector(startCycleScroll) userInfo:nil repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
 }
 
 /**
@@ -105,9 +105,9 @@ NSString *const LBCycleScrollViewCellIdentifier = @"LBCycleScrollViewCellIdentif
  */
 - (void)stopCycleScrollTimer {
     
-    if (self.timer) {
-        [self.timer invalidate];
-        self.timer = nil;
+    if (_timer) {
+        [_timer invalidate];
+        _timer = nil;
     }
 }
 
@@ -116,17 +116,17 @@ NSString *const LBCycleScrollViewCellIdentifier = @"LBCycleScrollViewCellIdentif
  */
 - (void)startCycleScroll {
     
-    if (self.scrollDirection == LBCycleScrollViewScrollDirectionHorizontal) {
-        if (!self.isCycleScrollEnabled && (self.currentIndex + 1 == self.itemArray.count)) {
-            [self.collectionView setContentOffset:CGPointMake(0.f, 0.f) animated:YES];
+    if (_scrollDirection == LBCycleScrollViewScrollDirectionHorizontal) {
+        if (!_cycleScrollEnabled && (_currentIndex + 1 == _itemArray.count)) {
+            [_collectionView setContentOffset:CGPointMake(0.f, 0.f) animated:YES];
         } else {
-            [self.collectionView setContentOffset:CGPointMake((self.currentIndex + 1) * self.collectionView.frame.size.width, 0.f) animated:YES];
+            [_collectionView setContentOffset:CGPointMake((_currentIndex + 1) * _collectionView.frame.size.width, 0.f) animated:YES];
         }
     } else {
-        if (!self.isCycleScrollEnabled && (self.currentIndex + 1 == self.itemArray.count)) {
-            [self.collectionView setContentOffset:CGPointMake(0.f, 0.f) animated:YES];
+        if (!_cycleScrollEnabled && (_currentIndex + 1 == _itemArray.count)) {
+            [_collectionView setContentOffset:CGPointMake(0.f, 0.f) animated:YES];
         } else {
-            [self.collectionView setContentOffset:CGPointMake(0.f, (self.currentIndex + 1) * self.collectionView.frame.size.height) animated:YES];
+            [_collectionView setContentOffset:CGPointMake(0.f, (_currentIndex + 1) * _collectionView.frame.size.height) animated:YES];
         }
     }
 }
@@ -136,65 +136,65 @@ NSString *const LBCycleScrollViewCellIdentifier = @"LBCycleScrollViewCellIdentif
  */
 - (void)resetPageControlFrame {
     
-    if (!self.pageControl) {
+    if (!_pageControl) {
         return;
     }
     
-    CGSize controlSize = [self.pageControl sizeForNumberOfPages:self.pageControl.numberOfPages];
+    CGSize controlSize = [_pageControl sizeForNumberOfPages:_pageControl.numberOfPages];
     
     CGFloat controlX = 0;
     CGFloat controlY = 0;
 
-    if (self.pageControlAlignment & LBCycleScrollViewPageControlAlignmentTop) {
-        controlY = self.pageControlTopOrBottomMargin;
+    if (_pageControlAlignment & LBCycleScrollViewPageControlAlignmentTop) {
+        controlY = _pageControlTopOrBottomMargin;
     }
-    if (self.pageControlAlignment & LBCycleScrollViewPageControlAlignmentBottom) {
-        controlY = self.frame.size.height - controlSize.height - self.pageControlTopOrBottomMargin;
+    if (_pageControlAlignment & LBCycleScrollViewPageControlAlignmentBottom) {
+        controlY = self.frame.size.height - controlSize.height - _pageControlTopOrBottomMargin;
     }
-    if (self.pageControlAlignment & LBCycleScrollViewPageControlAlignmentLeft) {
-        controlX = self.pageControlLeftOrRightMargin;
+    if (_pageControlAlignment & LBCycleScrollViewPageControlAlignmentLeft) {
+        controlX = _pageControlLeftOrRightMargin;
     }
-    if (self.pageControlAlignment & LBCycleScrollViewPageControlAlignmentRight) {
-        controlX = self.frame.size.width - controlSize.width - self.pageControlLeftOrRightMargin;
+    if (_pageControlAlignment & LBCycleScrollViewPageControlAlignmentRight) {
+        controlX = self.frame.size.width - controlSize.width - _pageControlLeftOrRightMargin;
     }
-    if (self.pageControlAlignment & LBCycleScrollViewPageControlAlignmentCenter) {
-        if (self.pageControl.pageControlDirection == LBPageControlDirectionHorizontal) {
+    if (_pageControlAlignment & LBCycleScrollViewPageControlAlignmentCenter) {
+        if (_pageControl.pageControlDirection == LBPageControlDirectionHorizontal) {
             controlX = (self.frame.size.width - controlSize.width) / 2;
         } else {
             controlY = (self.frame.size.height - controlSize.height) / 2;
         }
     }
 
-    self.pageControl.frame = CGRectMake(controlX, controlY, controlSize.width, controlSize.height);
+    _pageControl.frame = CGRectMake(controlX, controlY, controlSize.width, controlSize.height);
 }
 
 #pragma mark - Public
 
 - (void)reloadData {
     
-    self.pageControl.numberOfPages = self.itemArray.count;
+    _pageControl.numberOfPages = _itemArray.count;
     [self resetPageControlFrame];
     [self stopCycleScrollTimer];
     
-    if (self.isCycleScrollEnabled) {
-        self.totalItemsCount = self.itemArray.count <= 1 ? self.itemArray.count : 2 * self.itemArray.count;
-        [self.collectionView reloadData];
+    if (_cycleScrollEnabled) {
+        _totalItemsCount = _itemArray.count <= 1 ? _itemArray.count : 2 * _itemArray.count;
+        [_collectionView reloadData];
         
-        if (self.totalItemsCount > 1) {
+        if (_totalItemsCount > 1) {
             // scroll to the middle of the view
-            if (self.scrollDirection == LBCycleScrollViewScrollDirectionHorizontal) {
-                [self.collectionView setContentOffset:CGPointMake((self.totalItemsCount / 2 + self.selectIndex) * self.collectionView.frame.size.width, 0.f) animated:NO];
+            if (_scrollDirection == LBCycleScrollViewScrollDirectionHorizontal) {
+                [_collectionView setContentOffset:CGPointMake((_totalItemsCount / 2 + _selectedIndex) * _collectionView.frame.size.width, 0.f) animated:NO];
             } else {
-                [self.collectionView setContentOffset:CGPointMake(0.f, (self.totalItemsCount / 2 + self.selectIndex) * self.collectionView.frame.size.height) animated:NO];
+                [_collectionView setContentOffset:CGPointMake(0.f, (_totalItemsCount / 2 + _selectedIndex) * _collectionView.frame.size.height) animated:NO];
             }
-            self.pageControl.currentPage = self.currentIndex % self.itemArray.count;
+            _pageControl.currentPage = _currentIndex % _itemArray.count;
             [self startCycleScrollTimer];
         }
     } else {
-        self.totalItemsCount = self.itemArray.count;
-        [self.collectionView reloadData];
+        _totalItemsCount = _itemArray.count;
+        [_collectionView reloadData];
         
-        if (self.totalItemsCount > 1) {
+        if (_totalItemsCount > 1) {
             [self startCycleScrollTimer];
         }
     }
@@ -202,9 +202,9 @@ NSString *const LBCycleScrollViewCellIdentifier = @"LBCycleScrollViewCellIdentif
 
 #pragma mark - Setter/Getter
 
-- (void)setSelectIndex:(NSInteger)selectIndex {
+- (void)setSelectedIndex:(NSInteger)selectedIndex {
     
-    _selectIndex = selectIndex;
+    _selectedIndex = selectedIndex;
     
     [self reloadData];
 }
@@ -238,27 +238,27 @@ NSString *const LBCycleScrollViewCellIdentifier = @"LBCycleScrollViewCellIdentif
     } else {
         [layout setScrollDirection:UICollectionViewScrollDirectionVertical];
     }
-    [self.collectionView setCollectionViewLayout:layout animated:NO];
+    [_collectionView setCollectionViewLayout:layout animated:NO];
 }
 
 - (void)setManualScrollEnabled:(BOOL)manualScrollEnabled {
     
     _manualScrollEnabled = manualScrollEnabled;
     
-    self.collectionView.scrollEnabled = _manualScrollEnabled;
+    _collectionView.scrollEnabled = _manualScrollEnabled;
 }
 
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
-    return self.totalItemsCount;
+    return _totalItemsCount;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:LBCycleScrollViewCellIdentifier forIndexPath:indexPath];
-    [cell setCellItem:self.itemArray[indexPath.row % self.itemArray.count]];
+    [cell setCellItem:_itemArray[indexPath.row % _itemArray.count]];
     return cell;
 }
 
@@ -266,13 +266,8 @@ NSString *const LBCycleScrollViewCellIdentifier = @"LBCycleScrollViewCellIdentif
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    if ([self.delegate respondsToSelector:@selector(cycleScrollView:didSelectItemAtIndex:)]) {
-        [self.delegate cycleScrollView:self didSelectItemAtIndex:self.currentIndex % self.itemArray.count];
-    }
-    
-    if ([self.delegate respondsToSelector:@selector(cycleScrollView:didSelectItem:atIndex:)]) {
-        UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
-        [self.delegate cycleScrollView:self didSelectItem:cell atIndex:self.currentIndex % self.itemArray.count];
+    if ([_delegate respondsToSelector:@selector(cycleScrollView:didSelectItemAtIndex:)]) {
+        [_delegate cycleScrollView:self didSelectItemAtIndex:_currentIndex % _itemArray.count];
     }
 }
 
@@ -280,40 +275,41 @@ NSString *const LBCycleScrollViewCellIdentifier = @"LBCycleScrollViewCellIdentif
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     
-    if (self.totalItemsCount <= 1) {
+    if (_totalItemsCount <= 1) {
         return;
     }
     
     CGFloat pageWidth = scrollView.frame.size.width;
     CGFloat pageHeight = scrollView.frame.size.height;
-    if (self.scrollDirection == LBCycleScrollViewScrollDirectionHorizontal) {
-        self.currentIndex = (scrollView.contentOffset.x + pageWidth * 0.5) / pageWidth;
+    if (_scrollDirection == LBCycleScrollViewScrollDirectionHorizontal) {
+        _currentIndex = (scrollView.contentOffset.x + pageWidth * 0.5) / pageWidth;
     } else {
-        self.currentIndex = (scrollView.contentOffset.y + pageHeight * 0.5) / pageHeight;
+        _currentIndex = (scrollView.contentOffset.y + pageHeight * 0.5) / pageHeight;
     }
     
-    self.pageControl.currentPage = self.currentIndex % self.itemArray.count;
+    _selectedIndex = _currentIndex % _itemArray.count;
+    _pageControl.currentPage = _selectedIndex;
     
-    if (self.isCycleScrollEnabled) {
-        if (self.currentIndex == 0) {
+    if (_cycleScrollEnabled) {
+        if (_currentIndex == 0) {
             if (scrollView.contentOffset.x <= 0 &&
-                self.scrollDirection == LBCycleScrollViewScrollDirectionHorizontal) {  // has scroll to the first cell
+                _scrollDirection == LBCycleScrollViewScrollDirectionHorizontal) {  // has scroll to the first cell
                 // scroll to the middle of the collection view
-                [self.collectionView setContentOffset:CGPointMake(self.totalItemsCount / 2 * pageWidth, 0.f) animated:NO];
+                [_collectionView setContentOffset:CGPointMake(_totalItemsCount / 2 * pageWidth, 0.f) animated:NO];
             } else if (scrollView.contentOffset.y <= 0 &&
-                       self.scrollDirection == LBCycleScrollViewScrollDirectionVertical) {  // has scroll to the first cell
+                       _scrollDirection == LBCycleScrollViewScrollDirectionVertical) {  // has scroll to the first cell
                 // scroll to the middle of the collection view
-                [self.collectionView setContentOffset:CGPointMake(0.f, self.totalItemsCount / 2 * pageHeight) animated:NO];
+                [_collectionView setContentOffset:CGPointMake(0.f, _totalItemsCount / 2 * pageHeight) animated:NO];
             }
-        } else if (self.currentIndex == self.totalItemsCount - 1) {
-            if (self.currentIndex * pageWidth <= scrollView.contentOffset.x &&
-                self.scrollDirection == LBCycleScrollViewScrollDirectionHorizontal) {  // has scroll to the last cell
+        } else if (_currentIndex == _totalItemsCount - 1) {
+            if (_currentIndex * pageWidth <= scrollView.contentOffset.x &&
+                _scrollDirection == LBCycleScrollViewScrollDirectionHorizontal) {  // has scroll to the last cell
                 // scroll to the cell in front of the middle of the collection view
-                [self.collectionView setContentOffset:CGPointMake((self.totalItemsCount / 2 - 1) * pageWidth, 0.f) animated:NO];
-            } else if (self.currentIndex * pageHeight <= scrollView.contentOffset.y &&
-                       self.scrollDirection == LBCycleScrollViewScrollDirectionVertical) {  // has scroll to the last cell
+                [_collectionView setContentOffset:CGPointMake((_totalItemsCount / 2 - 1) * pageWidth, 0.f) animated:NO];
+            } else if (_currentIndex * pageHeight <= scrollView.contentOffset.y &&
+                       _scrollDirection == LBCycleScrollViewScrollDirectionVertical) {  // has scroll to the last cell
                 // scroll to the cell in front of the middle of the collection view
-                [self.collectionView setContentOffset:CGPointMake(0.f, (self.totalItemsCount / 2 - 1) * pageHeight) animated:NO];
+                [_collectionView setContentOffset:CGPointMake(0.f, (_totalItemsCount / 2 - 1) * pageHeight) animated:NO];
             }
         }
     }
@@ -326,7 +322,7 @@ NSString *const LBCycleScrollViewCellIdentifier = @"LBCycleScrollViewCellIdentif
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     
-    if (self.totalItemsCount > 1) {
+    if (_totalItemsCount > 1) {
         [self startCycleScrollTimer];
     }
 }
@@ -336,7 +332,7 @@ NSString *const LBCycleScrollViewCellIdentifier = @"LBCycleScrollViewCellIdentif
 - (void)setBackgroundColor:(UIColor *)backgroundColor {
     [super setBackgroundColor:backgroundColor];
     
-    self.collectionView.backgroundColor = backgroundColor;
+    _collectionView.backgroundColor = backgroundColor;
 }
 
 - (void)dealloc {

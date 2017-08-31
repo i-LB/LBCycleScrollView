@@ -32,8 +32,6 @@ typedef NS_OPTIONS(NSUInteger, LBCycleScrollViewPageControlAlignment) {
 @optional
 // Called after the user changes the selection.
 - (void)cycleScrollView:(LBCycleScrollView *)scrollView didSelectItemAtIndex:(NSUInteger)index;
-// Called after the user changes the selection.
-- (void)cycleScrollView:(LBCycleScrollView *)scrollView didSelectItem:(UICollectionViewCell *)item atIndex:(NSUInteger)index;
 
 @end
 
@@ -46,8 +44,8 @@ typedef NS_OPTIONS(NSUInteger, LBCycleScrollViewPageControlAlignment) {
 @property (nonatomic, strong) NSArray *itemArray;
 // the class of cell will register to the collectionView
 @property (nonatomic, strong) Class cellCls;
-// select index. default is 0
-@property (nonatomic) NSInteger selectIndex;
+// selected index. default is 0
+@property (nonatomic) NSInteger selectedIndex;
 // scroll time interval. default is 5 seconds
 @property (nonatomic) CGFloat scrollTimeInterval;
 // page control left margin or right margin. default is 15.f
