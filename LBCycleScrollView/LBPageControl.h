@@ -13,7 +13,19 @@ typedef NS_ENUM(NSUInteger, LBPageControlDirection) {
     LBPageControlDirectionVertical
 };
 
+@class LBPageControl;
+
+NS_ASSUME_NONNULL_BEGIN
+@protocol LBPageControlDelegate <NSObject>
+
+@optional
+- (void)pageControl:(LBPageControl *)control currentPage:(NSInteger)page;
+
+@end
+
 @interface LBPageControl : UIControl
+
+@property (nonatomic, weak) id<LBPageControlDelegate> delegate;
 
 @property (nonatomic) NSInteger numberOfPages;          // default is 0
 @property (nonatomic) NSInteger currentPage;            // default is 0. value pinned to 0..numberOfPages-1
@@ -35,3 +47,4 @@ typedef NS_ENUM(NSUInteger, LBPageControlDirection) {
 @property (nonatomic) CGFloat pageIndicatorSpacing;
 
 @end
+NS_ASSUME_NONNULL_END

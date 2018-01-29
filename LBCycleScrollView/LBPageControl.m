@@ -218,6 +218,10 @@ const CGFloat LBPageControlIndicatorSpacing = 8;
             [self updateCurrentPageDisplay];
         }
     }
+    
+    if ([self.delegate respondsToSelector:@selector(pageControl:currentPage:)]) {
+        [self.delegate pageControl:self currentPage:_currentPage];
+    }
 }
 
 - (void)setPageIndicatorImage:(UIImage *)pageIndicatorImage {
