@@ -87,7 +87,9 @@ Usage
     control4.pageIndicatorTintColor = [UIColor whiteColor];
     control4.currentPageIndicatorTintColor = [UIColor orangeColor];
     
-    LBCycleScrollView *scrollView4 = [LBCycleScrollView cycleScrollViewWithFrame:CGRectMake(0.f, 530.f, self.view.frame.size.width, 100.f) cellClass:[DemoCollectionViewCell_Two class]];
+    LBCycleScrollView *scrollView4 = [LBCycleScrollView new];
+    scrollView4.frame = CGRectMake(0.f, 530.f, self.view.frame.size.width, 100.f);
+    scrollView4.cellCls = [DemoCollectionViewCell_Two class];
     scrollView4.delegate = self;
     scrollView4.timingScrollingEnabled = NO;
     scrollView4.pageControlAlignment = LBCycleScrollViewPageControlAlignmentBottom | LBCycleScrollViewPageControlAlignmentLeft;

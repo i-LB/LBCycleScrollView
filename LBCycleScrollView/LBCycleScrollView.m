@@ -15,7 +15,7 @@ const CGFloat LBCycleScrollViewPageControlLeftRightMargin = 10;
 
 NSString *const LBCycleScrollViewCellIdentifier = @"LBCycleScrollViewCellIdentifier";
 
-@interface LBCycleScrollView () <UICollectionViewDelegate, UICollectionViewDataSource, UIScrollViewDelegate>
+@interface LBCycleScrollView () <UICollectionViewDelegate, UICollectionViewDataSource, UIScrollViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSTimer *timer;
@@ -47,6 +47,14 @@ NSString *const LBCycleScrollViewCellIdentifier = @"LBCycleScrollViewCellIdentif
     return view;
 }
 
+- (instancetype)init {
+    
+    if (self == [super init]) {
+        [self setupViewAndInitialValue];
+    }
+    return self;
+}
+
 - (instancetype)initWithFrame:(CGRect)frame {
     
     if (self == [super initWithFrame:frame]) {
@@ -55,17 +63,24 @@ NSString *const LBCycleScrollViewCellIdentifier = @"LBCycleScrollViewCellIdentif
     return self;
 }
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
+- (id)initWithCoder:(NSCoder *)aDecoder {
     
-    [self setupViewAndInitialValue];
+    if (self == [super initWithCoder:aDecoder]) {
+        [self setupViewAndInitialValue];
+    }
+    return self;
+}
+
+- (void)layoutSubviews {
+
+    _collectionView.frame = CGRectMake(0.f, 0.f, self.frame.size.width, self.frame.size.height);
 }
 
 #pragma mark - Private
 
 - (void)setupViewAndInitialValue {
     
-    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.f, 0.f, self.frame.size.width, self.frame.size.height) collectionViewLayout:[UICollectionViewFlowLayout new]];
+    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:[UICollectionViewFlowLayout new]];
     _collectionView.backgroundColor = [UIColor whiteColor];
     _collectionView.delegate = self;
     _collectionView.dataSource = self;
@@ -212,6 +227,8 @@ NSString *const LBCycleScrollViewCellIdentifier = @"LBCycleScrollViewCellIdentif
 - (void)setCellCls:(Class)cellCls {
     
     _cellCls = [cellCls isSubclassOfClass:[UICollectionViewCell class]] ? cellCls : [UICollectionViewCell class];
+    [_collectionView registerClass:_cellCls ? _cellCls : [UICollectionViewCell class]
+        forCellWithReuseIdentifier:LBCycleScrollViewCellIdentifier];
 }
 
 - (void)setPageControl:(LBPageControl *)pageControl {
@@ -230,7 +247,6 @@ NSString *const LBCycleScrollViewCellIdentifier = @"LBCycleScrollViewCellIdentif
     _scrollDirection = scrollDirection;
     
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    [layout setItemSize:CGSizeMake(self.frame.size.width, self.frame.size.height)];
     layout.minimumLineSpacing = 0.f;
     layout.minimumInteritemSpacing = 0.f;
     if (_scrollDirection == LBCycleScrollViewScrollDirectionHorizontal) {
@@ -269,6 +285,13 @@ NSString *const LBCycleScrollViewCellIdentifier = @"LBCycleScrollViewCellIdentif
     if ([_delegate respondsToSelector:@selector(cycleScrollView:didSelectItemAtIndex:)]) {
         [_delegate cycleScrollView:self didSelectItemAtIndex:_currentIndex % _itemArray.count];
     }
+}
+
+#pragma mark - UICollectionViewDelegateFlowLayout
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    return CGSizeMake(self.frame.size.width, self.frame.size.height);
 }
 
 #pragma mark - UIScrollViewDelegate
