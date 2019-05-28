@@ -74,6 +74,8 @@ NSString *const LBCycleScrollViewCellIdentifier = @"LBCycleScrollViewCellIdentif
 - (void)layoutSubviews {
 
     _collectionView.frame = CGRectMake(0.f, 0.f, self.frame.size.width, self.frame.size.height);
+    
+    [self resetPageControlFrame];
 }
 
 #pragma mark - Private
