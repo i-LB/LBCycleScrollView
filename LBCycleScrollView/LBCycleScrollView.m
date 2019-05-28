@@ -75,7 +75,7 @@ NSString *const LBCycleScrollViewCellIdentifier = @"LBCycleScrollViewCellIdentif
 
     _collectionView.frame = CGRectMake(0.f, 0.f, self.frame.size.width, self.frame.size.height);
     
-    [self resetPageControlFrame];
+    [self reloadData];
 }
 
 #pragma mark - Private
@@ -188,6 +188,12 @@ NSString *const LBCycleScrollViewCellIdentifier = @"LBCycleScrollViewCellIdentif
 #pragma mark - Public
 
 - (void)reloadData {
+    
+    if (_itemArray.count == 0 ||
+        _collectionView.frame.size.width == 0 ||
+        _collectionView.frame.size.height == 0) {
+        return;
+    }
     
     _pageControl.numberOfPages = _itemArray.count;
     [self resetPageControlFrame];
