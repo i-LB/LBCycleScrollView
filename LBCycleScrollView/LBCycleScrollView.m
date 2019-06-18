@@ -91,6 +91,9 @@ NSString *const LBCycleScrollViewCellIdentifier = @"LBCycleScrollViewCellIdentif
     _collectionView.pagingEnabled = YES;
     [_collectionView registerClass:_cellCls ? _cellCls : [UICollectionViewCell class]
             forCellWithReuseIdentifier:LBCycleScrollViewCellIdentifier];
+    if (@available(iOS 11.0, *)) {
+        _collectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    }
     [self addSubview:_collectionView];
     
     _timingScrollEnabled = YES;
