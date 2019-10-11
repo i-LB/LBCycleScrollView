@@ -31,7 +31,7 @@ typedef NS_OPTIONS(NSUInteger, LBCycleScrollViewPageControlAlignment) {
 
 @optional
 // Called after the user changes the selection.
-- (void)cycleScrollView:(LBCycleScrollView *)scrollView didSelectItemAtIndex:(NSUInteger)index;
+- (void)cycleScrollView:(LBCycleScrollView *)scrollView collectionViewCell:(UICollectionViewCell *)cell didSelectItemAtIndex:(NSUInteger)index;
 
 @end
 

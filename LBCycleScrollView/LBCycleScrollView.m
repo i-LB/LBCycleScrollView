@@ -293,8 +293,10 @@ NSString *const LBCycleScrollViewCellIdentifier = @"LBCycleScrollViewCellIdentif
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    if ([_delegate respondsToSelector:@selector(cycleScrollView:didSelectItemAtIndex:)]) {
-        [_delegate cycleScrollView:self didSelectItemAtIndex:_currentIndex % _itemArray.count];
+    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
+    
+    if ([_delegate respondsToSelector:@selector(cycleScrollView:collectionViewCell:didSelectItemAtIndex:)]) {
+        [_delegate cycleScrollView:self collectionViewCell:cell didSelectItemAtIndex:_currentIndex % _itemArray.count];
     }
 }
 
