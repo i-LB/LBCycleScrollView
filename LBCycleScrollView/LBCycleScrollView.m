@@ -258,6 +258,7 @@ NSString *const LBCycleScrollViewCellIdentifier = @"LBCycleScrollViewCellIdentif
     _scrollDirection = scrollDirection;
     
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    [layout setItemSize:CGSizeMake(self.frame.size.width, self.frame.size.height)];
     layout.minimumLineSpacing = 0.f;
     layout.minimumInteritemSpacing = 0.f;
     if (_scrollDirection == LBCycleScrollViewScrollDirectionHorizontal) {
