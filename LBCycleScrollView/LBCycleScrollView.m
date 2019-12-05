@@ -192,15 +192,15 @@ NSString *const LBCycleScrollViewCellIdentifier = @"LBCycleScrollViewCellIdentif
 
 - (void)reloadData {
     
+    _pageControl.numberOfPages = _itemArray.count;
+    [self resetPageControlFrame];
+    [self stopCycleScrollTimer];
+    
     if (_itemArray.count == 0 ||
         _collectionView.frame.size.width == 0 ||
         _collectionView.frame.size.height == 0) {
         return;
     }
-    
-    _pageControl.numberOfPages = _itemArray.count;
-    [self resetPageControlFrame];
-    [self stopCycleScrollTimer];
     
     if (_cycleScrollEnabled) {
         _totalItemsCount = _itemArray.count <= 1 ? _itemArray.count : 2 * _itemArray.count;
@@ -227,6 +227,12 @@ NSString *const LBCycleScrollViewCellIdentifier = @"LBCycleScrollViewCellIdentif
 }
 
 #pragma mark - Setter/Getter
+
+- (void)setItemArray:(NSArray *)itemArray {
+    
+    _itemArray = itemArray;
+    _totalItemsCount = 0;
+}
 
 - (void)setSelectedIndex:(NSInteger)selectedIndex {
     
