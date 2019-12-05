@@ -232,6 +232,7 @@ NSString *const LBCycleScrollViewCellIdentifier = @"LBCycleScrollViewCellIdentif
     
     _itemArray = itemArray;
     _totalItemsCount = 0;
+    [_collectionView reloadData];
 }
 
 - (void)setSelectedIndex:(NSInteger)selectedIndex {
